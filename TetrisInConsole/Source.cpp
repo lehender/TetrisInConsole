@@ -52,8 +52,8 @@ public:
 	}
 	void Oblock()
 	{
-		x1 = 12; x2 = 13;
-		x3 = 12; x4 = 13;
+		x1 = 4; x2 = 5;
+		x3 = 4; x4 = 5;
 
 		y1 = 1; y2 = 1;
 		y3 = 2; y4 = 2;
@@ -113,35 +113,66 @@ public:
 
 };
 
-class display: public pieces
+class display : public pieces
 {
 private:
-	const int display_height = 25;
-	const int display_width = 26;
+	int board[21][11]; // Y and X
 	// need to create a matrix for all available open spots, 0 unoccupied 1 occupied
 	// pieces pie;
 
 public:
+	bool collisoncheck()
+	{ // if x+1 = board[i][c] = 1 then STOP and board[i][c] = 1;
+		//int futureX1 = getX1() + 1; // dont think i need these for collision but I will wait until adding more shapes before i remove them
+		//int futureX2 = getX2() + 1;
+		//int futureX3 = getX3() + 1;
+		//int futureX4 = getX4() + 1;
+
+		int futureY1 = getY1() + 1;
+		int futureY2 = getY2() + 1;
+		int futureY3 = getY3() + 1;
+		int futureY4 = getY4() + 1;
+
+		std::cout << board[futureY1][getX1()];
+		std::cout << board[futureY2][getX2()];
+		std::cout << board[futureY3][getX3()];
+		std::cout << board[futureY4][getX4()];
+
+		if (board[futureY1][getX1()] == 1 || board[futureY2][getX2()] == 1 || board[futureY3][getX3()] == 1 || board[futureY4][getX4()] == 1)
+			return false;
+		else
+			return true;
+	}
 	void drawTable()
 	{
-		for (int i = 0; i <= display_height; i++)
-		{
-			if (i == 0 || i == display_height) {
-				for (int c = 0; c <= display_width; c++)
+		for (int i = 0; i < 22; i++) { // height
+			for (int c = 0; c < 12; c++) // cout ###########
+			{
+				if (i == 0 || i == 21) {
 					std::cout << "#";
-			}
-			else
-				for (int c = 0; c <= display_width; c++){
-					if (c == 0 || c == display_width)
-						std::cout << "#";
-					if(c == getX1() && i == getY1() || c == getX2() && i == getY2() || c == getX3() && i == getY3() || c == getX4() && i == getY4())
-						std::cout << "X";
-					else
-						std::cout << " ";
+					board[i][c] = 1;
+					// std::cout << board[i][c]; // DEBUG
 				}
+				else
+					if (c == 0 || c == 11) {
+						board[i][c] = 1;
+						// std::cout << board[i][c]; // DEBUG
+						std::cout << "#";
+					}
+					else if (c == getX1() && i == getY1() || c == getX2() && i == getY2() || c == getX3() && i == getY3() || c == getX4() && i == getY4()) {
+						std::cout << "X";
+					}
+					else {
+						board[i][c] = 0;
+						//std::cout << board[i][c]; // DEBUG
+						std::cout << " ";
+					}
+
+			}
 			std::cout << "\n";
 		}
 	}
+
 
 };
 

@@ -29,7 +29,12 @@ void logic()
         di.callPiece();
         di.setpiecePresent(true);
     }
-    di.advance();
+    if (di.collisoncheck()) {
+        di.advance();
+    }
+    else
+        di.setpiecePresent(false);
+        
   
 }
 
@@ -42,6 +47,6 @@ int main()
         setup();
         draw();
         logic();
-        Sleep(1000);
+        Sleep(100);
     }
 }
