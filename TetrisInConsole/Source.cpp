@@ -1,5 +1,11 @@
 #include <iostream>
 #include <Windows.h>
+#include <conio.h>
+
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
 
 class pieces
 {
@@ -52,8 +58,8 @@ public:
 	}
 	void Oblock()
 	{
-		x1 = 4; x2 = 5;
-		x3 = 4; x4 = 5;
+		x1 = 5; x2 = 6;
+		x3 = 5; x4 = 6;
 
 		y1 = 1; y2 = 1;
 		y3 = 2; y4 = 2;
@@ -61,10 +67,19 @@ public:
 
 	void advance()
 	{
-		y1++;
-		y2++;
-		y3++;
-		y4++;
+		int stopwait = 15; // this in combination with the sleep timer in main allows the piece to float without advancing every tick (without using a C++ timer import)
+		static int wait = stopwait;
+
+		if (wait > 0)
+			wait--;
+		else {
+			y1++;
+			y2++;
+			y3++;
+			y4++;
+			wait = stopwait;
+		}
+
 	}
 
 	bool piecePresent()
@@ -76,7 +91,7 @@ public:
 	{
 		piecepresent = value;
 	}
-
+	//--------------getX
 	int getX1()
 	{
 		return x1;
@@ -93,7 +108,7 @@ public:
 	{
 		return x4;
 	}
-
+	//--------------getX
 	int getY1()
 	{
 		return y1;
@@ -109,6 +124,40 @@ public:
 	int getY4()
 	{
 		return y4;
+	}
+	//--------------setX
+	void setX1(int value)
+	{
+		x1 += value;
+	}
+	void setX2(int value)
+	{
+		x2 += value;
+	}
+	void setX3(int value)
+	{
+		x3 += value;
+	}
+	void setX4(int value)
+	{
+		x4 += value;
+	}
+	//--------------setY
+	void setY1(int value)
+	{
+		y1 += value;
+	}
+	void setY2(int value)
+	{
+		y2 += value;
+	}
+	void setY3(int value)
+	{
+		y3 += value;
+	}
+	void setY4(int value)
+	{
+		y4 += value;
 	}
 
 };
@@ -143,6 +192,64 @@ public:
 		else
 			return true;
 	}
+	void moveRight()
+	{
+		if (xrCollisionCheck()) {
+			setX1(1);
+			setX2(1);
+			setX3(1);
+			setX4(1);
+		}
+	}
+
+	void moveLeft()
+	{
+		if (xlCollisionCheck()) {
+			setX1(-1);
+			setX2(-1);
+			setX3(-1);
+			setX4(-1);
+		}
+	}
+	void moveDown()
+	{
+		setY1(1);
+		setY2(1);
+		setY3(1);
+		setY4(1);
+	}
+
+	bool xrCollisionCheck()
+	{
+		int futureX1 = getX1() + 1; 
+		int futureX2 = getX2() + 1;
+		int futureX3 = getX3() + 1;
+		int futureX4 = getX4() + 1;
+
+		if (board[getY1()][futureX1] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1)
+			return false;
+		else
+			return true;
+	}
+	bool xlCollisionCheck()
+	{
+		int futureX1 = getX1() - 1;
+		int futureX2 = getX2() - 1;
+		int futureX3 = getX3() - 1;
+		int futureX4 = getX4() - 1;
+
+		if (board[getY1()][futureX1] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1)
+			return false;
+		else
+			return true;
+	}
+	void addToArray()
+	{
+		board[getY1()][getX1()] = 1;
+		board[getY2()][getX2()] = 1;
+		board[getY3()][getX3()] = 1;
+		board[getY4()][getX4()] = 1;
+	}
 	void drawTable()
 	{
 		for (int i = 0; i < 22; i++) { // height
@@ -162,7 +269,9 @@ public:
 					else if (c == getX1() && i == getY1() || c == getX2() && i == getY2() || c == getX3() && i == getY3() || c == getX4() && i == getY4()) {
 						std::cout << "X";
 					}
-					else {
+					else if (board[i][c] == 1)
+						std::cout << "Q";
+					else{
 						board[i][c] = 0;
 						//std::cout << board[i][c]; // DEBUG
 						std::cout << " ";
