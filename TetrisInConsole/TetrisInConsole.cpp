@@ -11,7 +11,7 @@ int i = 0;
 
 void setup()
 {
-
+  
 }
 
 
@@ -26,6 +26,7 @@ void input()
         {
         case KEY_UP:
             std::cout << "UP";
+            di.rotate();
             keypress = false;
             break;
         case KEY_LEFT:
@@ -51,19 +52,21 @@ void draw()
     system("cls");
     di.drawTable();
 
-    std::cout << di.getX1() << " " << di.getX2() << " " << di.getX3() << " " << di.getX4() << "\n"; // DEBUG
-    std::cout << di.getY1() << " " << di.getY2() << " " << di.getY3() << " " << di.getY4() << "\n"; // DEBUG
+    std::cout << "X1 = " << di.getX1() << " x2 = " << di.getX2() << " x3 = " << di.getX3() << " x4 = " << di.getX4() << "\n"; // DEBUG
+    std::cout << "y1 = " << di.getY1() << " y2 = " << di.getY2() << " y3 = " << di.getY3() << " y4 = " << di.getY4() << "\n"; // DEBUG
+    
+    std::cout << "piece = " << di.getpiece() << " rotate = " << /*di.getrotate() <<*/ "\n"; // DEBUG
 }
 
 void logic()
 {
 
-    if (di.piecePresent() == false) {
-        di.callPiece();
-        di.setpiecePresent(true);
+    while (di.piecePresent() == false) { // checks if piece is present
+            //di.callPiece();
+            di.setpiecePresent(di.callPiece()); // i put callpiece to return a bool balue, false if the piece was just called and true if its a new piece, this allows me to make sure the same peice is not called twice.
     }
     if (di.collisoncheck()) {
-        di.advance();
+            di.advance();
     }
     else {
         di.addToArray();
@@ -85,10 +88,9 @@ static void tempo()
 
 int main()
 {
-
+    setup();
     while (playing)
     {
-        setup();
         draw();
         logic();
         input();

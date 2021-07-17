@@ -11,50 +11,77 @@ class pieces
 {
 private:
 	int x1, x2, x3, x4, y1, y2, y3, y4; // each tetris piece has 4 squares
+	int lastpiece = 0, piece = 0;
 	bool piecepresent = false;
 
 public:
-	void callPiece() // there are 7 pieces, so we need 7 random numbers. if we want one to be more likely we can raise this number and assign more numbers to a specific piece.
+	bool callPiece() // there are 7 pieces, so we need 7 random numbers. if we want one to be more likely we can raise this number and assign more numbers to a specific piece.
 	{
 		srand(time(NULL));
 
-		int piece;
 		piece = rand() % 6;
 		// std::cout << piece << "\n";
-		switch (piece + 1)
+		switch (piece)
 		{
+		case 0:
+			std::cout << "piece 0\n";
+			if (lastpiece != 0) {
+				lastpiece = 0;
+				Oblock();
+				return true;
+			}
+			break;
 		case 1:
 			std::cout << "piece 1\n";
-			Oblock();
+			if (lastpiece != 1) {
+				lastpiece = 1;
+				iblock();
+				return true;
+			}
 			break;
 		case 2:
-			std::cout << "piece 2\n"; // make it a 2d array/matrix each row is a ... row with 25 spaces and 25 rows // tetris board is 10w 20h
-			Oblock();
+			std::cout << "piece 2\n";
+			if (lastpiece != 2) {
+				lastpiece = 2;
+				jblock();
+				return true;
+			}
 			break;
 		case 3:
 			std::cout << "piece 3\n";
-			Oblock();
+			if (lastpiece != 3) {
+				lastpiece = 3;
+				lblock();
+				return true;
+			}
 			break;
 		case 4:
 			std::cout << "piece 4\n";
-			Oblock();
-			break;
+			if (lastpiece != 4) {
+				lastpiece = 4;
+				sblock();
+				return true;
+			}
 		case 5:
 			std::cout << "piece 5\n";
-			Oblock();
-			break;
+			if (lastpiece != 5) {
+				lastpiece = 5;
+				zblock();
+				return true;
+			}
 		case 6:
 			std::cout << "piece 6\n";
-			Oblock();
-			break;
-		case 7:
-			std::cout << "piece 7\n";
-			Oblock();
-			break;
+			if (lastpiece != 6) {
+				lastpiece = 6;
+				tblock();
+				return true;
+			}
 		default:
+			
 			std::cout << "???BAD\n";
 			break;
 		}
+		return false;
 	}
 	void Oblock()
 	{
@@ -64,6 +91,53 @@ public:
 		y1 = 1; y2 = 1;
 		y3 = 2; y4 = 2;
 	}
+
+	void iblock()
+	{
+		x1 = 5; x2 = 5;
+		x3 = 5; x4 = 5;
+
+		y1 = 1; y2 = 2;
+		y3 = 3; y4 = 4;
+	}
+
+	void jblock()
+	{
+		x1 = 5; x2 = 5;x3 = 5; x4 = 4;
+		y1 = 1; y2 = 2;y3 = 3; y4 = 3;
+	}
+
+	void lblock()
+	{
+		x1 = 5; x2 = 5; x3 = 5; x4 = 6;
+		y1 = 1; y2 = 2; y3 = 3; y4 = 3;
+	}
+
+	void sblock()
+	{
+		x1 = 5; x2 = 6;
+		x3 = 4; x4 = 5;
+
+		y1 = 1; y2 = 1;
+		y3 = 2; y4 = 2;
+	}
+	void zblock()
+	{
+		x1 = 5; x2 = 6;
+		x3 = 4; x4 = 5;
+
+		y1 = 1; y2 = 1;
+		y3 = 2; y4 = 2;
+	}
+	void tblock()
+	{
+		x1 = 5; x2 = 4;
+		x3 = 5; x4 = 6;
+
+		y1 = 1; y2 = 2;
+		y3 = 2; y4 = 2;
+	}
+
 
 	void advance()
 	{
@@ -128,36 +202,75 @@ public:
 	//--------------setX
 	void setX1(int value)
 	{
-		x1 += value;
+		x1 = value;
 	}
 	void setX2(int value)
 	{
-		x2 += value;
+		x2 = value;
 	}
 	void setX3(int value)
 	{
-		x3 += value;
+		x3 = value;
 	}
 	void setX4(int value)
 	{
-		x4 += value;
+		x4 = value;
 	}
 	//--------------setY
 	void setY1(int value)
 	{
-		y1 += value;
+		y1 = value;
 	}
 	void setY2(int value)
 	{
-		y2 += value;
+		y2 = value;
 	}
 	void setY3(int value)
 	{
-		y3 += value;
+		y3 = value;
 	}
 	void setY4(int value)
 	{
+		y4 = value;
+	}
+	//--------------setX
+	void incX1(int value)
+	{
+		x1 += value;
+	}
+	void incX2(int value)
+	{
+		x2 += value;
+	}
+	void incX3(int value)
+	{
+		x3 += value;
+	}
+	void incX4(int value)
+	{
+		x4 += value;
+	}
+	//--------------setY
+	void incY1(int value)
+	{
+		y1 += value;
+	}
+	void incY2(int value)
+	{
+		y2 += value;
+	}
+	void incY3(int value)
+	{
+		y3 += value;
+	}
+	void incY4(int value)
+	{
 		y4 += value;
+	}
+
+	int getpiece()
+	{
+		return piece;
 	}
 
 };
@@ -167,7 +280,7 @@ class display : public pieces
 private:
 	int board[21][11]; // Y and X
 	// need to create a matrix for all available open spots, 0 unoccupied 1 occupied
-	// pieces pie;
+	int rota = 0;
 
 public:
 	bool collisoncheck()
@@ -187,58 +300,104 @@ public:
 		std::cout << board[futureY3][getX3()];
 		std::cout << board[futureY4][getX4()];
 
-		if (board[futureY1][getX1()] == 1 || board[futureY2][getX2()] == 1 || board[futureY3][getX3()] == 1 || board[futureY4][getX4()] == 1)
+		if (board[futureY1][getX1()] == 1 || board[futureY2][getX2()] == 1 || board[futureY3][getX3()] == 1 || board[futureY4][getX4()] == 1) // IMPORTANT instead of return true or false, try shifting this can help with collision
 			return false;
 		else
 			return true;
 	}
 	void moveRight()
 	{
-		if (xrCollisionCheck()) {
-			setX1(1);
-			setX2(1);
-			setX3(1);
-			setX4(1);
+		if (xrCollisionCheck()) { // IMPORTANT instead of return true or false, try shifting this can help with collision
+			incX1(1);
+			incX2(1);
+			incX3(1);
+			incX4(1);
 		}
 	}
 
 	void moveLeft()
 	{
-		if (xlCollisionCheck()) {
-			setX1(-1);
-			setX2(-1);
-			setX3(-1);
-			setX4(-1);
+		if (xlCollisionCheck()) { // IMPORTANT instead of return true or false, try shifting this can help with collision
+			incX1(-1);
+			incX2(-1);
+			incX3(-1);
+			incX4(-1);
 		}
 	}
 	void moveDown()
 	{
-		setY1(1);
-		setY2(1);
-		setY3(1);
-		setY4(1);
+		incY1(1);
+		incY2(1);
+		incY3(1);
+		incY4(1);
 	}
 
-	bool xrCollisionCheck()
+
+	void rotate() // IMPORTANT instead of return true or false, try shifting this can help with collision
+	{
+		int hx1 = getX1(), hx2 = getX2(), hx3 = getX3(), hx4 = getX4(), hy1 = getY1(), hy2 = getY2(), hy3 = getY3(), hy4 = getY4() ;
+
+		std::cout << rota;
+		switch (getpiece())
+		{
+		case 0: // oblock no need to rotate
+			break;
+		case 1: // i block, 2 states of rotation
+			switch (rota)
+			{
+			case 0:
+				setX1(hx1 - 3);
+				setX2(hx2 - 2);
+				setX3(hx3 - 1);
+				setX4(hx4);
+				setY1(hy1 + 1);
+				setY2(hy2);
+				setY3(hy3 + 1);
+				setY4(hy4 + 2);
+				rota = 1;
+				break;
+			case 1:
+				setX1(hx1 + 3);
+				setX2(hx2 + 2);
+				setX3(hx3 + 1);
+				setX4(hx4);
+				setY1(hy1 - 1);
+				setY2(hy2);
+				setY3(hy3 - 1);
+				setY4(hy4 - 2);
+				rota = 0;
+				break;
+			}
+			break;
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			break;
+		}
+		
+	}
+	bool xrCollisionCheck() // IMPORTANT instead of return true or false, try shifting this can help with collision
 	{
 		int futureX1 = getX1() + 1; 
 		int futureX2 = getX2() + 1;
 		int futureX3 = getX3() + 1;
 		int futureX4 = getX4() + 1;
 
-		if (board[getY1()][futureX1] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1)
+		if (board[getY1()][futureX1] == 1 || board[getY2()][futureX2] == 1 || board[getY3()][futureX3] == 1 || board[getY4()][futureX4] == 1)
 			return false;
 		else
 			return true;
 	}
-	bool xlCollisionCheck()
+	bool xlCollisionCheck() // IMPORTANT instead of return true or false, try shifting this can help with collision
 	{
 		int futureX1 = getX1() - 1;
 		int futureX2 = getX2() - 1;
 		int futureX3 = getX3() - 1;
 		int futureX4 = getX4() - 1;
 
-		if (board[getY1()][futureX1] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1 || board[getY2()][futureX2] == 1)
+		if (board[getY1()][futureX1] == 1 || board[getY2()][futureX2] == 1 || board[getY3()][futureX3] == 1 || board[getY4()][futureX4] == 1)
 			return false;
 		else
 			return true;
