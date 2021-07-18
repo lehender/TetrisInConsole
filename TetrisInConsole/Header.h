@@ -39,10 +39,7 @@ public:
 	int getPosition(int ); // x1,x2,x3,x4,y1,y2,y3,y4
 
 	//--------------setX
-	void setPosition(int, int);
-
-	//--------------setX
-	void incPosition(int, int);
+	void modPosition(int, int);
 
 	int getpiece();
 
@@ -60,23 +57,19 @@ private:
 	int rota = 0;
 
 public:
-	bool collisoncheck();
+	bool ycollisioncheck();
 
-	void moveRight();
-
-	void moveLeft();
-
-	void moveDown();
+	void moveLeftRightDown(int,int, int);
 
 	void rotate(); // IMPORTANT instead of return true or false, try shifting this can help with collision
 
-	bool xrCollisionCheck(); // IMPORTANT instead of return true or false, try shifting this can help with collision
-
-	bool xlCollisionCheck(); // IMPORTANT instead of return true or false, try shifting this can help with collision
+	bool xlrCollisionCheck(int); // IMPORTANT instead of return true or false, try shifting this can help with collision
 
 	void addToArray();
 
 	void drawTable();
+
+	int getRota();
 
 
 };

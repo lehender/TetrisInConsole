@@ -11,7 +11,9 @@ bool pieces::callPiece() // there are 7 pieces, so we need 7 random numbers. if 
 	srand(time(NULL));
 
 	piece = rand() % 6;
-	// std::cout << piece << "\n";
+	// std::cout << piece << "\n"; DEBUG
+	lastpiece = 1; // DEBUG
+	piece = 1; // DEBUG
 	switch (piece)
 	{
 	case 0:
@@ -24,7 +26,7 @@ bool pieces::callPiece() // there are 7 pieces, so we need 7 random numbers. if 
 		break;
 	case 1:
 		std::cout << "piece 1\n";
-		if (lastpiece != 1) {
+		if (lastpiece == 1) {
 			lastpiece = 1;
 			iblock();
 			return true;
@@ -77,21 +79,15 @@ bool pieces::callPiece() // there are 7 pieces, so we need 7 random numbers. if 
 void pieces::Oblock()
 {
 	position = { 5,6,5,6,1,1,2,2 };
-	//x1 = 5; x2 = 6;
-	//x3 = 5; x4 = 6;
-
-	//y1 = 1; y2 = 1;
-	//y3 = 2; y4 = 2;
+	//x1 = 5; x2 = 6;//x3 = 5; x4 = 6;
+	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
 
 void pieces::iblock()
 {
 	position = { 5,5,5,5,1,2,3,4 };
-	//x1 = 5; x2 = 5;
-	//x3 = 5; x4 = 5;
-
-	//y1 = 1; y2 = 2;
-	//y3 = 3; y4 = 4;
+	//x1 = 5; x2 = 5;//x3 = 5; x4 = 5;
+	//y1 = 1; y2 = 2;//y3 = 3; y4 = 4;
 }
 
 void pieces::jblock()
@@ -111,29 +107,20 @@ void pieces::lblock()
 void pieces::sblock()
 {
 	position = { 5,6,4,5,1,1,2,2 };
-	//x1 = 5; x2 = 6;
-	//x3 = 4; x4 = 5;
-
-	//y1 = 1; y2 = 1;
-	//y3 = 2; y4 = 2;
+	//x1 = 5; x2 = 6;//x3 = 4; x4 = 5;
+	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
 void pieces::zblock()
 {
 	position = { 5,6,4,5,1,1,2,2 };
-	//x1 = 5; x2 = 6;
-	//x3 = 4; x4 = 5;
-
-	//y1 = 1; y2 = 1;
-	//y3 = 2; y4 = 2;
+	//x1 = 5; x2 = 6; //x3 = 4; x4 = 5;
+	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
 void pieces::tblock()
 {
 	position = { 5,4,5,6,1,2,2,2 };
-	//x1 = 5; x2 = 4;
-	//x3 = 5; x4 = 6;
-
-	//y1 = 1; y2 = 2;
-	//y3 = 2; y4 = 2;
+	//x1 = 5; x2 = 4;//x3 = 5; x4 = 6;
+	//y1 = 1; y2 = 2;//y3 = 2; y4 = 2;
 }
 
 
@@ -145,15 +132,10 @@ void pieces::advance()
 	if (wait > 0)
 		wait--;
 	else {
-		//y1++;
-		//y2++;
-		//y3++;
-		//y4++;
-		for (int i = 4; i < numXYPositions; i++)
+		for (int i = 4; i < numXYPositions; i++) // increase all y values by 1
 			position[i]++;
 		wait = stopwait;
 	}
-
 }
 
 bool pieces::piecePresent()
@@ -172,13 +154,7 @@ int pieces::getPosition(int pos) // x1,x2,x3,x4,y1,y2,y3,y4
 }
 
 //--------------setX
-void pieces::setPosition(int pos, int value)
-{
-	position[pos] = value;
-}
-	
-//--------------setX
-void pieces::incPosition(int pos, int value)
+void pieces::modPosition(int pos, int value)
 {
 	position[pos] += value;
 }
@@ -192,52 +168,27 @@ int pieces::getNumXYPositions()
 	return numXYPositions;
 }
 
+// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS
+// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS
+// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS
+// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS
+// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS// BEGIN DISPLAY:PIECES CLASS
 
-bool display::collisoncheck()
+bool display::ycollisioncheck()
 { // if x+1 = board[i][c] = 1 then STOP and board[i][c] = 1;
 
-	int futureY1 = getPosition(4) + 1;
-	int futureY2 = getPosition(5) + 1;
-	int futureY3 = getPosition(6) + 1;
-	int futureY4 = getPosition(7) + 1;
-
-	std::cout << board[futureY1][getPosition(0)];
-	std::cout << board[futureY2][getPosition(1)];
-	std::cout << board[futureY3][getPosition(2)];
-	std::cout << board[futureY4][getPosition(3)];
-
-	if (board[futureY1][getPosition(0)] == 1 || board[futureY2][getPosition(1)] == 1 || board[futureY3][getPosition(2)] == 1 || board[futureY4][getPosition(3)] == 1) // IMPORTANT instead of return true or false, try shifting this can help with collision
+	if (board[getPosition(4) + 1][getPosition(0)] == 1 || board[getPosition(5) + 1][getPosition(1)] == 1 || board[getPosition(6) + 1][getPosition(2)] == 1 || board[getPosition(7) + 1][getPosition(3)] == 1) // IMPORTANT instead of return true or false, try shifting this can help with collision
 		return false;
 	else
 		return true;
 }
-void display::moveRight()
+void display::moveLeftRightDown(int setn, int value, int divisor)
 {
-	if (xrCollisionCheck()) { // IMPORTANT instead of return true or false, try shifting this can help with collision
-		incPosition(0, 1);
-		incPosition(1, 1);
-		incPosition(2, 1);
-		incPosition(3, 1);
+	if (xlrCollisionCheck(value)) { // IMPORTANT instead of return true or false xrCollisionCheck(), try shifting this can help with collision
+		for(int i = setn; i < getNumXYPositions() / divisor; i++) // i = starting pos, for y(down) = 4, for left/right = 0, getnumxypos default 8 need 4 if starting at y
+			modPosition(i, value); // BUG Need to run modified collision check here, to move newly applied pieces
 	}
 }
-
-void display::moveLeft()
-{
-	if (xlCollisionCheck()) { // IMPORTANT instead of return true or false, try shifting this can help with collision
-		incPosition(0, -1);
-		incPosition(1, -1);
-		incPosition(2, -1);
-		incPosition(3, -1);
-	}
-}
-void display::moveDown()
-{
-	incPosition(4, 1);
-	incPosition(5, 1);
-	incPosition(6, 1);
-	incPosition(7, 1);
-}
-
 
 void display::rotate() // IMPORTANT instead of return true or false, try shifting this can help with collision
 {
@@ -251,26 +202,28 @@ void display::rotate() // IMPORTANT instead of return true or false, try shiftin
 	case 1: // i block, 2 states of rotation
 		switch (rota)
 		{
-		case 0:
-			setPosition(0,1);
-			setPosition(0, 1);
-			setPosition(0, 1);
-			setPosition(0, 1);
-			setPosition(0, 1);
-			setPosition(0, 1);
-			setPosition(0, 1);
-			setPosition(0, 1);
+		case 0: 
+			modPosition(0,-1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, 1); //x3
+			modPosition(3, 2); //x4
+
+			modPosition(4, 2); //y1
+			modPosition(5, 1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7,-1); //y4
 			rota = 1;
 			break;
 		case 1:
-			setPosition(0, 5);
-			setPosition(0, 5);
-			setPosition(0, 5);
-			setPosition(0, 5);
-			setPosition(0, 2);
-			setPosition(0, 3);
-			setPosition(0, 4);
-			setPosition(0, 5);
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, -2); //x4
+
+			modPosition(4, -2); //y1
+			modPosition(5, -1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, 1); //y4
 			rota = 0;
 			break;
 		}
@@ -284,30 +237,21 @@ void display::rotate() // IMPORTANT instead of return true or false, try shiftin
 	}
 		
 }
-bool display::xrCollisionCheck() // IMPORTANT instead of return true or false, try shifting this can help with collision
-{
-	int futureX1 = getPosition(0) + 1; 
-	int futureX2 = getPosition(1) + 1;
-	int futureX3 = getPosition(2) + 1;
-	int futureX4 = getPosition(3) + 1;
 
-	if (board[getPosition(4)][futureX1] == 1 || board[getPosition(5)][futureX2] == 1 || board[getPosition(6)][futureX3] == 1 || board[getPosition(7)][futureX4] == 1)
-		return false;
-	else
-		return true;
-}
-bool display::xlCollisionCheck() // IMPORTANT instead of return true or false, try shifting this can help with collision
+bool display::xlrCollisionCheck(int inc) // IMPORTANT instead of return true or false, try shifting this can help with collision
 {
-	int futureX1 = getPosition(0) - 1;
-	int futureX2 = getPosition(1) - 1;
-	int futureX3 = getPosition(2) - 1;
-	int futureX4 = getPosition(3) - 1;
+	for (int i = 4; i < getNumXYPositions(); i++)
+		if (board[getPosition(i)][getPosition(i - 4) + inc] == 1)
+		{
+			for (int c = 0; c < getNumXYPositions() / 2; c++) { // TRY PUTTING THIS IN MODPOSITION to edit as the pieces are being placed.
+				modPosition(c, (inc * -1));
+			}
 
-	if (board[getPosition(4)][futureX1] == 1 || board[getPosition(5)][futureX2] == 1 || board[getPosition(6)][futureX3] == 1 || board[getPosition(7)][futureX4] == 1)
-		return false;
-	else
-		return true;
+		}
+		//return false;
+	return true;
 }
+
 void display::addToArray()
 {
 	for (int i = 0; i < (getNumXYPositions() / 2); i++) { // goes through all values and sets board position = piece position to 1, creating a new boundary
@@ -317,32 +261,36 @@ void display::addToArray()
 }
 void display::drawTable()
 {
-for (int i = 0; i < rows; i++) { // height
-	for (int c = 0; c < columns; c++) // cout ###########
-	{
-		if (i == 0 || i == rows - 1) {
-			std::cout << "#";
-			board[i][c] = 1;
-			// std::cout << board[i][c]; // DEBUG
-		}
-		else
-			if (c == 0 || c == columns - 1) {
+	for (int i = 0; i < rows; i++) { // height
+		for (int c = 0; c < columns; c++) // cout ###########
+		{
+			if (i == 0 || i == rows - 1) {
+				std::cout << "#";
 				board[i][c] = 1;
 				// std::cout << board[i][c]; // DEBUG
-				std::cout << "#";
 			}
-			else if (c == getPosition(0) && i == getPosition(4) || c == getPosition(1) && i == getPosition(5) || c == getPosition(2) && i == getPosition(6) || c == getPosition(3) && i == getPosition(7)) {
-				std::cout << "X";
-			}
-			else if (board[i][c] == 1)
-				std::cout << "Q";
-			else{
-				board[i][c] = 0;
-				//std::cout << board[i][c]; // DEBUG
-				std::cout << " ";
-			}
+			else
+				if (c == 0 || c == columns - 1) {
+					board[i][c] = 1;
+					// std::cout << board[i][c]; // DEBUG
+					std::cout << "#";
+				}
+				else if (c == getPosition(0) && i == getPosition(4) || c == getPosition(1) && i == getPosition(5) || c == getPosition(2) && i == getPosition(6) || c == getPosition(3) && i == getPosition(7)) {
+					std::cout << "0";
+				}
+				else if (board[i][c] == 1)
+					std::cout << "Q";
+				else{
+					board[i][c] = 0;
+					//std::cout << board[i][c]; // DEBUG
+					std::cout << " ";
+				}
 
+		}
+		std::cout << "\n";
 	}
-	std::cout << "\n";
 }
+int display::getRota()
+{
+	return rota;
 }

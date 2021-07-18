@@ -13,7 +13,7 @@
 #define KEY_RIGHT 77
 
 bool playing = true;
-bool keypress = false;
+bool keypress = true;
 display di;
 
 int i = 0;
@@ -27,6 +27,7 @@ void setup()
 void input()
 {
 
+    //if (_kbhit() == NULL) want to work out a way to make sure key is released before allowing another key press, except for DOWN
     keypress = true;
 
     if (_kbhit() && keypress)
@@ -39,15 +40,15 @@ void input()
             keypress = false;
             break;
         case KEY_LEFT:
-            di.moveLeft();
+            di.moveLeftRightDown(0,-1,2); //start at 0, change x by -1, divide total location points by 2
             keypress = false;
             break;
         case KEY_RIGHT:
-            di.moveRight();
+            di.moveLeftRightDown(0, 1, 2);
             keypress = false;
             break;
         case KEY_DOWN:
-            di.moveDown();
+            di.moveLeftRightDown(4, 1, 1);
             std::cout << "DOWN";
             //keypress = false;
             break;
@@ -64,7 +65,7 @@ void draw()
     std::cout << "X1 = " << di.getPosition(0) << " x2 = " << di.getPosition(1) << " x3 = " << di.getPosition(2) << " x4 = " << di.getPosition(3) << "\n"; // DEBUG
     std::cout << "y1 = " << di.getPosition(4) << " y2 = " << di.getPosition(5) << " y3 = " << di.getPosition(6) << " y4 = " << di.getPosition(7) << "\n"; // DEBUG
     
-    std::cout << "piece = " << di.getpiece() << " rotate = " << /*di.getrotate() <<*/ "\n"; // DEBUG
+    std::cout << "piece = " << di.getpiece() << " rotate = " << di.getRota() << "\n"; // DEBUG
 }
 
 void logic()
@@ -74,7 +75,7 @@ void logic()
             //di.callPiece();
             di.setpiecePresent(di.callPiece()); // i put callpiece to return a bool balue, false if the piece was just called and true if its a new piece, this allows me to make sure the same peice is not called twice.
     }
-    if (di.collisoncheck()) {
+    if (di.ycollisioncheck()) {
             di.advance();
     }
     else {
