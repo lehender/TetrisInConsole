@@ -1,7 +1,16 @@
 // Levi Henderson
 // Started July 14th, 2021
 
-#include "Source.cpp"
+#include <iostream>
+#include <Windows.h>
+#include <conio.h>
+
+#include "Header.h"
+
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
 
 bool playing = true;
 bool keypress = false;
@@ -11,7 +20,7 @@ int i = 0;
 
 void setup()
 {
-  
+ 
 }
 
 
@@ -52,8 +61,8 @@ void draw()
     system("cls");
     di.drawTable();
 
-    std::cout << "X1 = " << di.getX1() << " x2 = " << di.getX2() << " x3 = " << di.getX3() << " x4 = " << di.getX4() << "\n"; // DEBUG
-    std::cout << "y1 = " << di.getY1() << " y2 = " << di.getY2() << " y3 = " << di.getY3() << " y4 = " << di.getY4() << "\n"; // DEBUG
+    std::cout << "X1 = " << di.getPosition(0) << " x2 = " << di.getPosition(1) << " x3 = " << di.getPosition(2) << " x4 = " << di.getPosition(3) << "\n"; // DEBUG
+    std::cout << "y1 = " << di.getPosition(4) << " y2 = " << di.getPosition(5) << " y3 = " << di.getPosition(6) << " y4 = " << di.getPosition(7) << "\n"; // DEBUG
     
     std::cout << "piece = " << di.getpiece() << " rotate = " << /*di.getrotate() <<*/ "\n"; // DEBUG
 }
