@@ -74,6 +74,7 @@ void logic()
     while (di.piecePresent() == false) { // checks if piece is present
             //di.callPiece();
             di.setpiecePresent(di.callPiece()); // i put callpiece to return a bool balue, false if the piece was just called and true if its a new piece, this allows me to make sure the same peice is not called twice.
+            di.setRota(0);
     }
     if (di.ycollisioncheck()) {
             di.advance();

@@ -4,16 +4,15 @@
 
 #include "Header.h"
 
-
-
 bool pieces::callPiece() // there are 7 pieces, so we need 7 random numbers. if we want one to be more likely we can raise this number and assign more numbers to a specific piece.
 {
 	srand(time(NULL));
 
 	piece = rand() % 6;
 	// std::cout << piece << "\n"; DEBUG
-	lastpiece = 1; // DEBUG
-	piece = 1; // DEBUG
+	//lastpiece = 6; // DEBUG
+	//piece = 6; // DEBUG
+	
 	switch (piece)
 	{
 	case 0:
@@ -26,7 +25,7 @@ bool pieces::callPiece() // there are 7 pieces, so we need 7 random numbers. if 
 		break;
 	case 1:
 		std::cout << "piece 1\n";
-		if (lastpiece == 1) {
+		if (lastpiece != 1) {
 			lastpiece = 1;
 			iblock();
 			return true;
@@ -112,8 +111,8 @@ void pieces::sblock()
 }
 void pieces::zblock()
 {
-	position = { 5,6,4,5,1,1,2,2 };
-	//x1 = 5; x2 = 6; //x3 = 4; x4 = 5;
+	position = { 4,5,5,6,1,1,2,2 };
+	//x1 = 4; x2 = 5; //x3 = 5; x4 = 6;
 	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
 void pieces::tblock()
@@ -184,17 +183,17 @@ bool display::ycollisioncheck()
 }
 void display::moveLeftRightDown(int setn, int value, int divisor)
 {
-	if (xlrCollisionCheck(value)) { // IMPORTANT instead of return true or false xrCollisionCheck(), try shifting this can help with collision
-		for(int i = setn; i < getNumXYPositions() / divisor; i++) // i = starting pos, for y(down) = 4, for left/right = 0, getnumxypos default 8 need 4 if starting at y
-			modPosition(i, value); // BUG Need to run modified collision check here, to move newly applied pieces
-	}
+	std::cout << "SETN = " << setn << " Value = " << value << " div = " << divisor << "\n";
+	xlrCollisionCheck(value, setn);
+	for(int i = setn; i < getNumXYPositions() / divisor; i++) // i = starting pos, for y(down) = 4, for left/right = 0, getnumxypos default 8 need 4 if starting at y
+		modPosition(i, value); 
+
 }
 
-void display::rotate() // IMPORTANT instead of return true or false, try shifting this can help with collision
+void display::rotate() 
 {
 	int hx1 = getPosition(0), hx2 = getPosition(1), hx3 = getPosition(2), hx4 = getPosition(3), hy1 = getPosition(4), hy2 = getPosition(5), hy3 = getPosition(6), hy4 = getPosition(7);
 
-	std::cout << rota;
 	switch (getpiece())
 	{
 	case 0: // oblock no need to rotate
@@ -228,28 +227,239 @@ void display::rotate() // IMPORTANT instead of return true or false, try shiftin
 			break;
 		}
 		break;
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	case 6:
+	case 2: // j block rotation
+		switch (rota)
+		{
+		case 0:
+			modPosition(0, -2); //x1
+			modPosition(1, -1); //x2
+			modPosition(2, 0); //x3
+			modPosition(3, 1); //x4
+
+			modPosition(4, 1); //y1
+			modPosition(5, 0); //y2
+			modPosition(6, -1); //y3
+			modPosition(7, 0); //y4
+			rota = 1;
+			break;
+		case 1:
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, 0); //x4
+
+			modPosition(4, 2); //y1
+			modPosition(5, 1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, -1); //y4
+			rota = 2;
+			break;
+		case 2:
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, -2); //x4
+
+			modPosition(4, -1); //y1
+			modPosition(5, 0); //y2
+			modPosition(6, 1); //y3
+			modPosition(7, 0); //y4
+			rota = 3;
+			break;
+		case 3:
+			modPosition(0, 0); //x1
+			modPosition(1, 1); //x2
+			modPosition(2, 2); //x3
+			modPosition(3, 1); //x4
+
+			modPosition(4, -2); //y1
+			modPosition(5, -1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, 1); //y4
+			rota = 0;
+			break;
+		}
+		break;
+	case 3: // L block
+		switch (rota)
+		{
+		case 0:
+			modPosition(0, -2); //x1
+			modPosition(1, -1); //x2
+			modPosition(2, 0); //x3
+			modPosition(3, -1); //x4
+
+			modPosition(4, 1); //y1
+			modPosition(5, 0); //y2
+			modPosition(6, -1); //y3
+			modPosition(7, -2); //y4
+			rota = 1;
+			break;
+		case 1:
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, -2); //x4
+
+			modPosition(4, 2); //y1
+			modPosition(5, 1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, 1); //y4
+			rota = 2;
+			break;
+		case 2:
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, 0); //x4
+
+			modPosition(4, -1); //y1
+			modPosition(5, 0); //y2
+			modPosition(6, 1); //y3
+			modPosition(7, 2); //y4
+			rota = 3;
+			break;
+		case 3:
+			modPosition(0, 0); //x1
+			modPosition(1, 1); //x2
+			modPosition(2, 2); //x3
+			modPosition(3, 3); //x4
+
+			modPosition(4, -2); //y1
+			modPosition(5, -1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, -1); //y4
+			rota = 0;
+			break;
+		}
+		break;
+	case 4: // s block
+		switch (rota)
+		{
+		case 0:
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, 1); //x3
+			modPosition(3, 0); //x4
+
+			modPosition(4, 1); //y1
+			modPosition(5, 2); //y2
+			modPosition(6, -1); //y3
+			modPosition(7, 0); //y4
+			rota = 1;
+			break;
+		case 1:
+			modPosition(0, -1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, 0); //x4
+
+			modPosition(4, -1); //y1
+			modPosition(5, -2); //y2
+			modPosition(6, 1); //y3
+			modPosition(7, 0); //y4
+			rota = 0;
+			break;
+		}
+		break;
+	case 5: // z block
+		switch (rota)
+		{
+		case 0:
+			modPosition(0, 1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, 1); //x3
+			modPosition(3, 0); //x4
+
+			modPosition(4, 2); //y1
+			modPosition(5, 1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, -1); //y4
+			rota = 1;
+			break;
+		case 1:
+			modPosition(0, -1); //x1
+			modPosition(1, 0); //x2
+			modPosition(2, -1); //x3
+			modPosition(3, 0); //x4
+
+			modPosition(4, -2); //y1
+			modPosition(5, -1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, 1); //y4
+			rota = 0;
+			break;
+		}
+		break;
+	case 6: // t block
+		switch (rota)
+		{
+		case 0:
+			modPosition(0, 1); //x1
+			modPosition(1, 1); //x2
+			modPosition(2, 0); //x3
+			modPosition(3, -1); //x4
+
+			modPosition(4, 1); //y1
+			modPosition(5, -1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, 1); //y4
+			rota = 1;
+			break;
+		case 1:
+			modPosition(0, -1); //x1
+			modPosition(1, 1); //x2
+			modPosition(2, 0); //x3
+			modPosition(3, -1); //x4
+
+			modPosition(4, 1); //y1
+			modPosition(5, 1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, -1); //y4
+			rota = 2;
+			break;
+		case 2:
+			modPosition(0, -1); //x1
+			modPosition(1, -1); //x2
+			modPosition(2, 0); //x3
+			modPosition(3, 1); //x4
+
+			modPosition(4, -1); //y1
+			modPosition(5, 1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, -1); //y4
+			rota = 3;
+			break;
+		case 3:
+			modPosition(0, 1); //x1
+			modPosition(1, -1); //x2
+			modPosition(2, 0); //x3
+			modPosition(3, 1); //x4
+
+			modPosition(4, -1); //y1
+			modPosition(5, -1); //y2
+			modPosition(6, 0); //y3
+			modPosition(7, 1); //y4
+			rota = 0;
+			break;
+		}
+		break;
 		break;
 	}
 		
 }
 
-bool display::xlrCollisionCheck(int inc) // IMPORTANT instead of return true or false, try shifting this can help with collision
+void display::xlrCollisionCheck(int inc, int setn) 
 {
-	for (int i = 4; i < getNumXYPositions(); i++)
-		if (board[getPosition(i)][getPosition(i - 4) + inc] == 1)
-		{
-			for (int c = 0; c < getNumXYPositions() / 2; c++) { // TRY PUTTING THIS IN MODPOSITION to edit as the pieces are being placed.
-				modPosition(c, (inc * -1));
-			}
+	if (setn != 4) { // dont want to check if moving down, only l or r
+		for (int i = 4; i < getNumXYPositions(); i++)
+			if (board[getPosition(i)][getPosition(i - 4) + (inc)] == 1){
+				for (int c = 0; c < getNumXYPositions() / 2; c++) {
+					modPosition(c, (inc * -1)); // This pushes the piece away OPPOSITE of the direction it is moving. 
+				}
 
-		}
-		//return false;
-	return true;
+			}
+	}
 }
 
 void display::addToArray()
@@ -257,7 +467,6 @@ void display::addToArray()
 	for (int i = 0; i < (getNumXYPositions() / 2); i++) { // goes through all values and sets board position = piece position to 1, creating a new boundary
 		board[getPosition(i + 4)][getPosition(i)] = 1;
 	}
-
 }
 void display::drawTable()
 {
@@ -285,7 +494,6 @@ void display::drawTable()
 					//std::cout << board[i][c]; // DEBUG
 					std::cout << " ";
 				}
-
 		}
 		std::cout << "\n";
 	}
@@ -293,4 +501,9 @@ void display::drawTable()
 int display::getRota()
 {
 	return rota;
+}
+
+void display::setRota(int val)
+{
+	rota = val;
 }

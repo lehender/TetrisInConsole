@@ -63,7 +63,7 @@ public:
 
 	void rotate(); // IMPORTANT instead of return true or false, try shifting this can help with collision
 
-	bool xlrCollisionCheck(int); // IMPORTANT instead of return true or false, try shifting this can help with collision
+	void xlrCollisionCheck(int, int); // IMPORTANT instead of return true or false, try shifting this can help with collision
 
 	void addToArray();
 
@@ -71,6 +71,7 @@ public:
 
 	int getRota();
 
+	void setRota(int);
 
 };
 
