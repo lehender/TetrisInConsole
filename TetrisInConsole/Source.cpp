@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <array>
 #include <stdexcept>
 
@@ -8,124 +9,171 @@ bool pieces::callPiece() // there are 7 pieces, so we need 7 random numbers. if 
 {
 	srand(time(NULL));
 
-	piece = rand() % 6;
+	piece = nextpiece;
+
 	// std::cout << piece << "\n"; DEBUG
-	//lastpiece = 6; // DEBUG
-	//piece = 6; // DEBUG
+	//lastpiece = 3; // DEBUG
+	//piece = 3; // DEBUG
 	
 	switch (piece)
 	{
-	case 0:
-		std::cout << "piece 0\n";
-		if (lastpiece != 0) {
-			lastpiece = 0;
-			Oblock();
-			return true;
-		}
-		break;
 	case 1:
-		std::cout << "piece 1\n";
 		if (lastpiece != 1) {
 			lastpiece = 1;
-			iblock();
+			Oblock(position);
 			return true;
 		}
 		break;
 	case 2:
-		std::cout << "piece 2\n";
 		if (lastpiece != 2) {
 			lastpiece = 2;
-			jblock();
+			iblock(position);
 			return true;
 		}
 		break;
 	case 3:
-		std::cout << "piece 3\n";
 		if (lastpiece != 3) {
 			lastpiece = 3;
-			lblock();
+			jblock(position);
 			return true;
 		}
 		break;
 	case 4:
-		std::cout << "piece 4\n";
 		if (lastpiece != 4) {
 			lastpiece = 4;
-			sblock();
+			lblock(position);
 			return true;
 		}
+		break;
 	case 5:
-		std::cout << "piece 5\n";
 		if (lastpiece != 5) {
 			lastpiece = 5;
-			zblock();
+			sblock(position);
 			return true;
 		}
 	case 6:
-		std::cout << "piece 6\n";
 		if (lastpiece != 6) {
 			lastpiece = 6;
-			tblock();
+			zblock(position);
+			return true;
+		}
+	case 7:
+		if (lastpiece != 7) {
+			lastpiece = 7;
+			tblock(position);
 			return true;
 		}
 	default:
-			
 		std::cout << "???BAD\n";
 		break;
 	}
+
 	return false;
 }
-void pieces::Oblock()
+
+int pieces::getNextPiece()
 {
-	position = { 5,6,5,6,1,1,2,2 };
+	return nextpiece;
+}
+int pieces::setNextPiece()
+{
+	while (nextpiece == lastpiece) {
+		nextpiece = rand() % 7 + 1;
+	}
+
+
+
+	switch (nextpiece)
+	{
+	case 1:
+		Oblock(nextPositionArray);
+		break;
+	case 2:
+		iblock(nextPositionArray);
+		break;
+	case 3:
+		jblock(nextPositionArray);
+		break;
+	case 4:
+		lblock(nextPositionArray);
+		break;
+	case 5:
+		sblock(nextPositionArray);
+		break;
+	case 6:
+		zblock(nextPositionArray);
+		break;
+	case 7:
+		tblock(nextPositionArray);
+		break;
+	}
+	return nextpiece;
+}
+
+void pieces::Oblock(std::array<int, numXYPositions>& arr)
+{
+	arr = { 5,6,5,6,0,0,1,1 };
 	//x1 = 5; x2 = 6;//x3 = 5; x4 = 6;
 	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
 
-void pieces::iblock()
+void pieces::iblock(std::array<int, numXYPositions>& arr)
 {
-	position = { 5,5,5,5,1,2,3,4 };
+	arr = { 5,5,5,5,0,1,2,3 };
 	//x1 = 5; x2 = 5;//x3 = 5; x4 = 5;
 	//y1 = 1; y2 = 2;//y3 = 3; y4 = 4;
 }
 
-void pieces::jblock()
+void pieces::jblock(std::array<int, numXYPositions>& arr)
 {
-	position = { 5,5,5,4,1,2,3,3 };
+	arr = { 5,5,5,4,0,1,2,2 };
 	//x1 = 5; x2 = 5;x3 = 5; x4 = 4;
 	//y1 = 1; y2 = 2;y3 = 3; y4 = 3;
 }
 
-void pieces::lblock()
+void pieces::lblock(std::array<int, numXYPositions>& arr)
 {
-	position = { 5,5,5,6,1,2,3,3 };
+	arr = { 5,5,5,6,0,1,2,2 };
 	//x1 = 5; x2 = 5; x3 = 5; x4 = 6;
 	//y1 = 1; y2 = 2; y3 = 3; y4 = 3;
 }
 
-void pieces::sblock()
+void pieces::sblock(std::array<int, numXYPositions>& arr)
 {
-	position = { 5,6,4,5,1,1,2,2 };
+	arr = { 5,6,4,5,0,0,1,1 };
 	//x1 = 5; x2 = 6;//x3 = 4; x4 = 5;
 	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
-void pieces::zblock()
+void pieces::zblock(std::array<int, numXYPositions>& arr)
 {
-	position = { 4,5,5,6,1,1,2,2 };
+	arr = { 4,5,5,6,0,0,1,1 };
 	//x1 = 4; x2 = 5; //x3 = 5; x4 = 6;
 	//y1 = 1; y2 = 1;//y3 = 2; y4 = 2;
 }
-void pieces::tblock()
+void pieces::tblock(std::array<int, numXYPositions>& arr)
 {
-	position = { 5,4,5,6,1,2,2,2 };
+	arr = { 5,4,5,6,0,1,1,1 };
 	//x1 = 5; x2 = 4;//x3 = 5; x4 = 6;
 	//y1 = 1; y2 = 2;//y3 = 2; y4 = 2;
 }
 
 
-void pieces::advance()
+void pieces::advance(int score)
 {
-	int stopwait = 15; // this in combination with the sleep timer in main allows the piece to float without advancing every tick (without using a C++ timer import)
+	int stopwait; // this in combination with the sleep timer in main allows the piece to float without advancing every tick (without using a C++ timer import)
+	if (score < 50)
+		stopwait = 5;
+	if (score >= 50)
+		stopwait = 4;
+	if (score >= 100)
+		stopwait = 3;
+	if (score >= 150)
+		stopwait = 2;
+	if (score >= 200)
+		stopwait = 1;
+	if (score > 275)
+		stopwait = 0;
+	//std::cout << stopwait;
 	static int wait = stopwait;
 
 	if (wait > 0)
@@ -150,6 +198,10 @@ void pieces::setpiecePresent(bool value)
 int pieces::getPosition(int pos) // x1,x2,x3,x4,y1,y2,y3,y4
 {
 	return position[pos];
+}
+int pieces::getNextPosition(int pos) // x1,x2,x3,x4,y1,y2,y3,y4
+{
+	return nextPositionArray[pos];
 }
 
 //--------------setX
@@ -176,14 +228,14 @@ int pieces::getNumXYPositions()
 bool display::ycollisioncheck()
 { // if x+1 = board[i][c] = 1 then STOP and board[i][c] = 1;
 
-	if (board[getPosition(4) + 1][getPosition(0)] == 1 || board[getPosition(5) + 1][getPosition(1)] == 1 || board[getPosition(6) + 1][getPosition(2)] == 1 || board[getPosition(7) + 1][getPosition(3)] == 1) // IMPORTANT instead of return true or false, try shifting this can help with collision
+	if (board[getPosition(4) + 1][getPosition(0)] != 0 || board[getPosition(5) + 1][getPosition(1)] != 0 || board[getPosition(6) + 1][getPosition(2)] != 0 || board[getPosition(7) + 1][getPosition(3)] != 0) // IMPORTANT instead of return true or false, try shifting this can help with collision
 		return false;
 	else
 		return true;
 }
 void display::moveLeftRightDown(int setn, int value, int divisor)
 {
-	std::cout << "SETN = " << setn << " Value = " << value << " div = " << divisor << "\n";
+	//std::cout << "SETN = " << setn << " Value = " << value << " div = " << divisor << "\n";
 	xlrCollisionCheck(value, setn);
 	for(int i = setn; i < getNumXYPositions() / divisor; i++) // i = starting pos, for y(down) = 4, for left/right = 0, getnumxypos default 8 need 4 if starting at y
 		modPosition(i, value); 
@@ -196,9 +248,9 @@ void display::rotate()
 
 	switch (getpiece())
 	{
-	case 0: // oblock no need to rotate
+	case 1: // oblock no need to rotate
 		break;
-	case 1: // i block, 2 states of rotation
+	case 2: // i block, 2 states of rotation
 		switch (rota)
 		{
 		case 0: 
@@ -227,7 +279,7 @@ void display::rotate()
 			break;
 		}
 		break;
-	case 2: // j block rotation
+	case 3: // j block rotation
 		switch (rota)
 		{
 		case 0:
@@ -280,7 +332,7 @@ void display::rotate()
 			break;
 		}
 		break;
-	case 3: // L block
+	case 4: // L block
 		switch (rota)
 		{
 		case 0:
@@ -333,7 +385,7 @@ void display::rotate()
 			break;
 		}
 		break;
-	case 4: // s block
+	case 5: // s block
 		switch (rota)
 		{
 		case 0:
@@ -362,7 +414,7 @@ void display::rotate()
 			break;
 		}
 		break;
-	case 5: // z block
+	case 6: // z block
 		switch (rota)
 		{
 		case 0:
@@ -391,7 +443,7 @@ void display::rotate()
 			break;
 		}
 		break;
-	case 6: // t block
+	case 7: // t block
 		switch (rota)
 		{
 		case 0:
@@ -444,58 +496,165 @@ void display::rotate()
 			break;
 		}
 		break;
-		break;
 	}
+	if (getPosition(0) >= 5) // check after rotation that piece is not in the wall. Check that x1 is greater than or equal to 5, similar to moving right, we send it a +1, which will move the piece LEFT, else right.
+		xlrCollisionCheck(1, 0);
+	else
+		xlrCollisionCheck(-1, 0);
 		
 }
 
-void display::xlrCollisionCheck(int inc, int setn) 
+void display::xlrCollisionCheck(int inc, int setn)
 {
 	if (setn != 4) { // dont want to check if moving down, only l or r
-		for (int i = 4; i < getNumXYPositions(); i++)
-			if (board[getPosition(i)][getPosition(i - 4) + (inc)] == 1){
+		for (int i = 4; i < getNumXYPositions(); i++) {
+			//std::cout << "CHECK1\n"; // DEBUG
+			if (board[getPosition(i)][getPosition(i - 4) + (inc)] != 0) {
+				//std::cout << "CHECK2\n"; // DEBUB
 				for (int c = 0; c < getNumXYPositions() / 2; c++) {
+					//std::cout << "CHECK3\n"; // DEBUG
 					modPosition(c, (inc * -1)); // This pushes the piece away OPPOSITE of the direction it is moving. 
 				}
 
 			}
+		}
 	}
 }
 
 void display::addToArray()
 {
 	for (int i = 0; i < (getNumXYPositions() / 2); i++) { // goes through all values and sets board position = piece position to 1, creating a new boundary
-		board[getPosition(i + 4)][getPosition(i)] = 1;
+		if (getPosition(i + 4) == 0)
+		{
+			std::cout << "GAME OVER";
+			std::cin.get();
+		}
+		board[getPosition(i + 4)][getPosition(i)] = getpiece();
 	}
 }
 void display::drawTable()
 {
 	for (int i = 0; i < rows; i++) { // height
-		for (int c = 0; c < columns; c++) // cout ###########
+		for (int c = 0; c < columns; c++) // width
 		{
-			if (i == 0 || i == rows - 1) {
-				std::cout << "#";
+			if (i == 0 || i == rows - 1) { // top and bottom border
+				color("board"); std::cout << "#"; color("default");
 				board[i][c] = 1;
 				// std::cout << board[i][c]; // DEBUG
 			}
-			else
-				if (c == 0 || c == columns - 1) {
+			else {
+				if (c == 0 || c >= (columns / 2) - 1) { // left and right walls/table
 					board[i][c] = 1;
-					// std::cout << board[i][c]; // DEBUG
-					std::cout << "#";
+					//std::cout << board[i][c]; // DEBUG
+					// Table detail drawing
+					if (i > 0 && i < 7 && c > 11 && c < columns - 1) {
+						if (i == 1 && c < (columns - 2))
+							std::cout << nextPieceText[(c - 12)];
+						else if (i > 1 && i < 8)
+							drawPieceinNext((rows - i), (columns - c));
+						else
+							std::cout << " ";
+					}
+					else if (i == 9 && c > 11 && c < columns - 1) {
+						if (c > 11 && c < 18)
+							std::cout << scoreText[(c - 12)];
+						else
+							std::cout << " ";
+					}
+					else if (i == 10 && c > 11 && c < columns - 1) {
+						if (c == 12)
+							std::cout << std::setw(11) << score;
+						else
+							std::cout << "";
+					}
+					else if (i == 12 && c > 11 && c < columns - 1) {
+						color("redblack");
+						std::cout << tetrisText[(c - 12)];
+						color("default");
+					}
+					else {
+						color("board"); std::cout << "#"; color("default");
+					}
+						
+					// End of table detail drawing
 				}
-				else if (c == getPosition(0) && i == getPosition(4) || c == getPosition(1) && i == getPosition(5) || c == getPosition(2) && i == getPosition(6) || c == getPosition(3) && i == getPosition(7)) {
-					std::cout << "0";
+				else if (board[i][c] != 0) {
+					drawPiece(board[i][c]);
 				}
-				else if (board[i][c] == 1)
-					std::cout << "Q";
-				else{
+				else if (i > 0 && i < rows && c > 0 && c <= columns / 2) {
+					drawPieceinBoard(i, c);
+					//std::cout << board[i][c]; // DEBUG
+				}
+
+				else if (c < columns / 2) {
 					board[i][c] = 0;
 					//std::cout << board[i][c]; // DEBUG
 					std::cout << " ";
 				}
+			}
 		}
 		std::cout << "\n";
+	}
+}
+void display::drawPieceinNext(int y, int x)
+{
+	y -= 16;
+	x -= 2;
+	//std::cout << "y = " << y << " x = " << x << "\n";
+	if (x == getNextPosition(0) && y == getNextPosition(4) || x == getNextPosition(1) && y == getNextPosition(5) || x == getNextPosition(2) && y == getNextPosition(6) || x == getNextPosition(3) && y == getNextPosition(7))
+		drawPiece(getNextPiece());
+	else
+		std::cout << " ";
+}
+
+void display::drawPieceinBoard(int y, int x)
+{
+
+	if (x == getPosition(0) && y == getPosition(4) || x == getPosition(1) && y == getPosition(5) || x == getPosition(2) && y == getPosition(6) || x == getPosition(3) && y == getPosition(7))
+		drawPiece(getpiece());
+	else
+		std::cout << " ";
+}
+
+void display::drawPiece(int piece)
+{
+	switch (piece)
+	{
+	case 1:
+		color("lightblue"); 
+		std::cout << " ";
+		color("default");
+		break;
+	case 2:
+		color("lightgreen");
+		std::cout << " ";
+		color("default");
+		break;
+	case 3:
+		color("pink");
+		std::cout << " ";
+		color("default");
+		break;
+	case 4:
+		color("purple");
+		std::cout << " ";
+		color("default");
+		break;
+	case 5:
+		color("tan");
+		std::cout << " ";
+		color("default");
+		break;
+	case 6:
+		color("darkblue");
+		std::cout << " ";
+		color("default");
+		break;
+	case 7:
+		color("yellow");
+		std::cout << " ";
+		color("default");
+		break;
 	}
 }
 int display::getRota()
@@ -506,4 +665,69 @@ int display::getRota()
 void display::setRota(int val)
 {
 	rota = val;
+}
+
+
+void display::color(std::string col)
+{
+	if (col == "default")
+		SetConsoleTextAttribute(hConsole, 7);
+
+	if (col == "lightblue")
+		SetConsoleTextAttribute(hConsole, 153);
+	if (col == "lightgreen")
+		SetConsoleTextAttribute(hConsole, 170);
+	if (col == "pink")
+		SetConsoleTextAttribute(hConsole, 204);
+	if (col == "purple")
+		SetConsoleTextAttribute(hConsole, 221);
+	if (col == "tan")
+		SetConsoleTextAttribute(hConsole, 238);
+	if (col == "darkblue")
+		SetConsoleTextAttribute(hConsole, 17);
+	if (col == "yellow")
+		SetConsoleTextAttribute(hConsole, 102);
+
+	if (col == "redblack")
+		SetConsoleTextAttribute(hConsole, 64);
+	if (col == "board")
+		SetConsoleTextAttribute(hConsole, 136);
+	if (col == "test")
+		for (int i = 0; i < 255; i++)
+		{
+			SetConsoleTextAttribute(hConsole, i);
+			std::cout << i << "THIS IS a test!!!" << std::endl;
+		}
+}
+
+void display::checkLines()
+{
+	int count, tetris_row;
+
+	for (int i = rows - 2; i > 0; i--) { // height
+		count = 0;
+		for (int c = columns - 14; c > 0; c--) {// width
+			if (board[i][c] > 0 && board[i][c] < 8) {
+				count++;
+				tetris_row = i;
+			}
+				
+		}
+		//std::cout << " " << count;
+		if (count == 10) {
+			score += 25;
+			for (int i = tetris_row; i > 2; i--) { // height
+				for (int c = columns - 14; c > 0; c--) {// width
+					board[i][c] = board[i-1][c];
+				}
+			}
+			std::cout << "TETRIS";
+		}
+		//count = 0;
+	}
+}
+
+int display::getScore()
+{
+	return score;
 }

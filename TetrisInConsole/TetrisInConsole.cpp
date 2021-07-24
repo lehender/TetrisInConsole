@@ -35,7 +35,7 @@ void input()
         switch (_getch())
         {
         case KEY_UP:
-            std::cout << "UP";
+            //std::cout << "UP";
             di.rotate();
             keypress = false;
             break;
@@ -49,7 +49,7 @@ void input()
             break;
         case KEY_DOWN:
             di.moveLeftRightDown(4, 1, 1);
-            std::cout << "DOWN";
+           // std::cout << "DOWN";
             //keypress = false;
             break;
         }
@@ -62,49 +62,45 @@ void draw()
     system("cls");
     di.drawTable();
 
-    std::cout << "X1 = " << di.getPosition(0) << " x2 = " << di.getPosition(1) << " x3 = " << di.getPosition(2) << " x4 = " << di.getPosition(3) << "\n"; // DEBUG
-    std::cout << "y1 = " << di.getPosition(4) << " y2 = " << di.getPosition(5) << " y3 = " << di.getPosition(6) << " y4 = " << di.getPosition(7) << "\n"; // DEBUG
-    
-    std::cout << "piece = " << di.getpiece() << " rotate = " << di.getRota() << "\n"; // DEBUG
+    //std::cout << "X1 = " << di.getPosition(0) << " x2 = " << di.getPosition(1) << " x3 = " << di.getPosition(2) << " x4 = " << di.getPosition(3) << "\n"; // DEBUG
+    //std::cout << "y1 = " << di.getPosition(4) << " y2 = " << di.getPosition(5) << " y3 = " << di.getPosition(6) << " y4 = " << di.getPosition(7) << "\n"; // DEBUG
+    //std::cout << "piece = " << di.getpiece() << " rotate = " << di.getRota() << "\n"; // DEBUG
 }
 
 void logic()
 {
 
     while (di.piecePresent() == false) { // checks if piece is present
-            //di.callPiece();
+            
             di.setpiecePresent(di.callPiece()); // i put callpiece to return a bool balue, false if the piece was just called and true if its a new piece, this allows me to make sure the same peice is not called twice.
+            di.setNextPiece();
             di.setRota(0);
     }
     if (di.ycollisioncheck()) {
-            di.advance();
+            di.advance(di.getScore());
     }
     else {
-        di.addToArray();
+        di.addToArray(); // THis is also fail check. Checks if trying to add to 0 pos, aka top of board.
         di.setpiecePresent(false);
     }
+    di.checkLines();
   
-}
-
-static void tempo()
-{
-    bool advance = true;
-    if (advance)
-    {
-
-    }
-
 }
 
 
 int main()
 {
+    //for (int i = 0; i < 200; i++)
+    //{
+    //    std::cout << rand() % 7 + 1;
+    //}
+    //std::cin.get();
     setup();
     while (playing)
     {
         draw();
         logic();
         input();
-        Sleep(50);
+        Sleep(100);
     }
 }
